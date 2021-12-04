@@ -18,7 +18,7 @@ class Author extends Model
     protected $fillable = [
         'name',
         'gender',
-        'counter',
+        'country',
     ];
 
     /**

@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiResponser;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -11,6 +14,8 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    use ApiResponser;
     /**
      * A list of the exception types that should not be reported.
      *
@@ -49,6 +54,31 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof HttpException) {
+            return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
+        }
+
+        if( $exception instanceof ModelNotFoundException) {
+            $model = strtolower(class_basename($exception->getModel()));
+            return $this->errorResponse(
+                "Does not exists any instance of {$model} with given id",
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($exception instanceof AuthorizationException) {
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_FORBIDDEN);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->validator->errors()->getMessages();
+            return $this->errorResponse($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         return parent::render($request, $exception);
     }
 }
