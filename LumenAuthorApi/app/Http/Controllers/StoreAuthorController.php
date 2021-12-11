@@ -30,11 +30,8 @@ class AuthorController extends Controller
         $this->authorCreateService = $authorCreateService;
     }
 
-    /**
-     * Return authors list
-     * @return Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(): JsonResponse
     {
         $authors = Author::all();
         return $this->successResponse($authors);
@@ -49,7 +46,6 @@ class AuthorController extends Controller
     public function store(StoreAuthorRequest $request): JsonResponse
     {
         return $this->authorCreateService->create($request->all());
-
     }
 
 
