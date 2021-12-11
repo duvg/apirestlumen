@@ -7,15 +7,18 @@ namespace App\Http\Services;
 use App\Models\Author;
 use App\Traits\ApiResponser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
-class AuthorCreateService
+class DeleteAuthorService
 {
     use ApiResponser;
 
-    public function create(array $data): JsonResponse
+    public function delete(string $id): JsonResponse
     {
-        $author = Author::create($data);
+        $author = Author::findOrFail($id);
+
+        $author->delete();
+
         return $this->successResponse($author);
     }
+
 }

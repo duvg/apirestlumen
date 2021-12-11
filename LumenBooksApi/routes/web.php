@@ -13,9 +13,9 @@
 |
 */
 
-$router->get('/authors', 'GetAllAuthorController@getAll');
-$router->post('/authors', 'StoreAuthorController@store');
-$router->get('/authors/{author}', 'GetAuthorController@get');
-$router->put('/authors/{author}', 'UpdateAuthorController@update');
-$router->patch('/authors/{author}', 'UpdateuthorController@update');
-$router->delete('/authors/{author}', 'DeleteAuthorController@delete');
+$router->get('/books', 'GetAllBookController@getAll');
+$router->post('/books', 'StoreBookController@store');
+$router->get('/books/{book}', 'GetBookController@getBook');
+$router->put('/books/{book}', 'UpdateBookController@update');
+$router->patch('/books/{book}', 'UpdateBookController@update');
+$router->delete('/books/{book}', 'DeleteBookController@delete');

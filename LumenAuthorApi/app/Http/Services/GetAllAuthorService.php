@@ -7,15 +7,15 @@ namespace App\Http\Services;
 use App\Models\Author;
 use App\Traits\ApiResponser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
-class AuthorCreateService
+class GetAllAuthorService
 {
     use ApiResponser;
 
-    public function create(array $data): JsonResponse
+    public function getAll(): JsonResponse
     {
-        $author = Author::create($data);
+        $author = Author::all();
+
         return $this->successResponse($author);
     }
 }
