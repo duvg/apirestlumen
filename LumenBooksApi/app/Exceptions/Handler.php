@@ -91,7 +91,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof HttpException) {
             return $this->errorResponse($exception->getMessage()."asds", $exception->getStatusCode());
         }
-        
+
         if (env('APP_DEBUG', false)) {
             return parent::render($request, $exception);
         }
